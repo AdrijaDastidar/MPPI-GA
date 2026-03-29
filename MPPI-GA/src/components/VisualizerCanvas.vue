@@ -29,8 +29,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
-import TWEEN, { removeAll } from "@tweenjs/tween.js";
-import Stats from "three/examples/jsm/libs/stats.module.js";
+import TWEEN from "@tweenjs/tween.js";
 
 import { getAllNodes, tweenToColor } from "./algorithms/helpers.js";
 
@@ -96,7 +95,6 @@ export default {
 		mouse: null,
 		intersectedNode: null,
 		clock: null,
-		stats: null,
 		// Device cam
 		videoCanvas: null,
 		video: null
@@ -237,9 +235,7 @@ export default {
 					vm.$emit("groundInitialized", vm.ground);
 				},
 				undefined,
-				function(error) {
-					console.log(error);
-				}
+				undefined
 			);
 			let fakeGroundGeometry = new THREE.PlaneGeometry(1000, 1000, this.cols, this.rows);
 			fakeGroundGeometry.rotateX(-Math.PI / 2);
@@ -283,9 +279,7 @@ export default {
 						vm.wallMaterials.push(new THREE.MeshLambertMaterial({ map: texture }));
 					},
 					undefined,
-					function(error) {
-						console.log(error);
-					}
+					undefined
 				);
 			}
 
@@ -342,13 +336,6 @@ export default {
 			var sky = new THREE.Mesh(skyGeo, skyMat);
 			this.scene.add(sky);
 
-			// Stats
-			this.stats = new Stats();
-			this.stats.dom.style.top = "auto";
-			this.stats.dom.style.bottom = '5px';
-			this.stats.dom.style.left = '3px';
-			document.getElementById("visualizer").appendChild(this.stats.dom);
-
 			//Resize handler
 			window.addEventListener("resize", this.resizeHandler);
 			this.renderer.domElement.addEventListener("mousedown", this.onMouseDown, true);
@@ -379,7 +366,6 @@ export default {
 			}
 			this.renderer.render(this.scene, this.camera);
 			TWEEN.update();
-			this.stats.update();
 		},
 
 		hoverObjectLoop() {
@@ -558,12 +544,8 @@ export default {
 		addControls() {
 			this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement);
 			this.pointerLockControls = new PointerLockControls(this.camera, this.renderer.domElement);
-			this.pointerLockControls.addEventListener("lock", function() {
-				console.log("Pointer Locked");
-			});
-			this.pointerLockControls.addEventListener("unlock", function() {
-				console.log("Pointer Unlocked");
-			});
+			this.pointerLockControls.addEventListener("lock", () => {});
+			this.pointerLockControls.addEventListener("unlock", () => {});
 			// Clock
 			this.clock = new THREE.Clock();
 			document.addEventListener("keydown", this.onKeyDown, false);
@@ -851,7 +833,6 @@ export default {
 					coords = this.faceIndexToCoordinates(intersects[0].object.wallId * 2);
 				} else {
 					var faceIndex = intersects[0].faceIndex;
-					console.log(faceIndex);
 					coords = this.faceIndexToCoordinates(faceIndex);
 				}
 				this.$emit("clickEvent", this.grid[coords.row][coords.col]);

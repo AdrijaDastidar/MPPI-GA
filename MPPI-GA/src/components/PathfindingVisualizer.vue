@@ -203,9 +203,9 @@ export default {
 			type: "weighted",
 			info: {
 				heading: "Swarm Algorithm",
-				text: `The Swarm Algorithm, presumably developed by Clément Mihailescu and Hussein Farah, is essentially a mixture of Dijkstra's Algorithm and A* Search. More precisely, while it converges to the target node like A*, it still explores quite a few neighboring nodes surrounding the start node like Dijkstra's.
+				text: `A hybrid-style search that blends ideas from Dijkstra and A*: it tends to move toward the goal like A* while still expanding more broadly near the start, similar to Dijkstra.
 				<br><br>
-				It is a <b>weighted</b> algorithm and <b>does not guarantee</b> the shortest path!`
+				It is a <b>weighted</b> algorithm and <b>does not guarantee</b> the shortest path.`
 			}
 		},
 		selectedAlgorithm: null,
@@ -373,7 +373,6 @@ export default {
 		},
 
 		unlockSwarm() {
-			console.log('Unlocked Swarm');
 			this.algorithms.push(this.swarm);
 		},
 
@@ -474,7 +473,6 @@ export default {
 						this.selectedAlgorithm.algorithm
 					);
 				}
-				console.log("success:", success);
 				if (success == false) {
 					this.clearPath();
 					this.visualizerState = "finished";

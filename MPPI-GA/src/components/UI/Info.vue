@@ -3,17 +3,14 @@
 		<button class="btn-close" @click="resetToLegends" v-if="status != ''">&#10006;</button>
 		<h2>{{ current.heading }}</h2>
 		<p class="main-content" v-html="current.text"></p>
-		<div class="swarm-unlocked" v-if="status == 'attributions' && swarmUnlocked">Swarm Unlocked!</div>
+		<div class="swarm-unlocked" v-if="status == 'attributions' && swarmUnlocked">Extra algorithm unlocked</div>
 		<div class="info-buttons">
 			<Button class="info" @click="startTutorial" v-if="status == ''">Tutorial</Button>
-			<Button class="danger" @click="showAttributions" v-if="status == ''">Attributions</Button>
-			<a href="https://github.com/dhruvmisra/Pathfinding-Visualizer-ThreeJS" target="_blank">
+			<Button class="danger" @click="showAttributions" v-if="status == ''">Credits</Button>
+			<a href="https://github.com/AdrijaDastidar/MPPI-GA" target="_blank" rel="noopener noreferrer">
 				<Button class="white" v-if="status == ''">
 					<img src="@/assets/icons/github-logo.svg" alt="" />
 				</Button>
-			</a>
-			<a href="https://www.buymeacoffee.com/dhruvmisra" target="_blank" v-if="status == ''">
-				<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 120px !important; margin: 5px 3px;" >
 			</a>
 			<!-- Tutorial buttons -->
 			<div class="tutorial-buttons" v-if="status == 'tutorial'">
@@ -41,12 +38,12 @@ export default {
 			heading: "",
 			text: ""
 		},
-		clemCounter: 0,
-		clemTimeout: null,
+		unlockTapCount: 0,
+		unlockTapTimeout: null,
 		swarmUnlocked: false,
 		tutorial: [
 			{
-				heading: "Pathfinding Visualizer in 3D!",
+				heading: "MPPI-GA — 3D pathfinding",
 				text: `This is a 3D visualizer for multiple pathfinding algorithms.
 				<br> 
 				A pathfinding algorithm seeks to find the shortest path between two points.
@@ -67,7 +64,7 @@ export default {
 					<img src="img/tutorial/setupWorld2.jpg" style="width: 150px; margin: 10px;">
 				</div>
 				<br>
-				<small>("They are quite clearly buildings, Dhruv" - I know but I'm used to the 'wall' terminology :p)</small>`
+				<small>Walls are represented as buildings on the grid.</small>`
 			},
 			{
 				heading: "Capture using Device Camera",
@@ -157,39 +154,29 @@ export default {
 			},
 			{
 				heading: "Have fun!",
-				text: `Make sure to enjoy this as much as I did while building it. Practice your FPS skills too.
-				<br><br>
-				There's little Easter Egg hidden in the system too, let's see if you can find it. ;)
-				<br><br>
-				You can view the source code for this project on <a href="https://github.com/dhruvmisra/Pathfinding-Visualizer-ThreeJS" target="_blank">GitHub</a>
+				text: `Source code: <a href="https://github.com/AdrijaDastidar/MPPI-GA" target="_blank" rel="noopener noreferrer">GitHub</a>.
 				`
 			},
 		],
 		tutorialIndex: 0,
 		legends: {
-			heading: "Pathfinding Visualizer",
+			heading: "MPPI-GA",
 			text: "" // Will be generated on created()
 		},
 		attributions: {
-			heading: "Attributions",
+			heading: "Credits",
 			text: `<div style="text-align: left">
-				<h3 style="margin: 5px 0; opacity: 0.4">Idea</h3>
-				<span id="clem">Clément Mihailescu</span> for the inspiration to build this visualizer through his amazing <a href="https://github.com/clementmihailescu/Pathfinding-Visualizer" target="_blank">project</a> and <a href="https://www.youtube.com/channel/UCaO6VoaYJv4kS-TQO_M-N_g" target="_blank">YouTube channel</a>.<br>
-				And playing krunker.io with my friends.
+				<h3 style="margin: 5px 0; opacity: 0.4">Repository</h3>
+				<a href="https://github.com/AdrijaDastidar/MPPI-GA" target="_blank" rel="noopener noreferrer">github.com/AdrijaDastidar/MPPI-GA</a>
 				<br><br>
-				<h3 style="margin: 5px 0; opacity: 0.4">WebGL Library</h3>
-				Three.js
+				<h3 style="margin: 5px 0; opacity: 0.4">Rendering</h3>
+				<a href="https://threejs.org/" target="_blank" rel="noopener noreferrer">Three.js</a>
 				<br><br>
-				<h3 style="margin: 5px 0; opacity: 0.4">Assets & Icons</h3>
-				Textures from <a href="https://opengameart.org/" target="_blank">OpenGameArt.org</a><br>
-				Icons made by <a href="https://www.flaticon.com/authors/freepik" target="_blank">Freepik</a> from <a href="https://www.flaticon.com/" target="_blank"> www.flaticon.com</a>
+				<h3 style="margin: 5px 0; opacity: 0.4">Assets</h3>
+				Textures: <a href="https://opengameart.org/" target="_blank" rel="noopener noreferrer">OpenGameArt.org</a><br>
+				Icons: <a href="https://www.flaticon.com/authors/freepik" target="_blank" rel="noopener noreferrer">Freepik</a> via <a href="https://www.flaticon.com/" target="_blank" rel="noopener noreferrer">Flaticon</a>
 				<br><br>
-				<h3 style="margin: 5px 0; opacity: 0.4">Fork me on GitHub</h3>
-				Source code <a href="https://github.com/dhruvmisra/Pathfinding-Visualizer-ThreeJS" target="_blank">repository</a>.
-				<br><br>
-				<h3 style="margin: 5px 0; opacity: 0.4">Support Me</h3>
-				<a href="https://www.buymeacoffee.com/dhruvmisra" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 120px !important; margin: 5px 0;" ></a>
-				<p style="text-align: center; margin: 1em 0;">Made with ❤️ in Vue.js</p>
+				<p style="opacity: 0.75; font-size: 0.9em"><span id="unlock-trigger" tabindex="0">Project</span> — tap the word five times within a few seconds to unlock an extra algorithm in the list.</p>
 			</div>
 			`
 		}
@@ -275,29 +262,30 @@ export default {
 			this.status = 'attributions';
 			if(this.swarmUnlocked) return;
 			this.$nextTick(() => {
-				document.getElementById('clem').addEventListener('click', this.clemClick);
+				const el = document.getElementById('unlock-trigger');
+				if (el) el.addEventListener('click', this.onUnlockTap);
 			});
 		},
 
-		clemClick() {
+		onUnlockTap() {
 			if(this.swarmUnlocked) return;
 
-			clearTimeout(this.clemTimeout);
-			this.clemCounter++;
-			if(this.clemCounter == 5) {
+			clearTimeout(this.unlockTapTimeout);
+			this.unlockTapCount++;
+			if(this.unlockTapCount == 5) {
 				this.$emit('unlockSwarm');
 				this.swarmUnlocked = true;
 			}
-			this.clemTimeout = setTimeout(() => {
-				this.clemCounter = 0;
+			this.unlockTapTimeout = setTimeout(() => {
+				this.unlockTapCount = 0;
 			}, 3000);
 		},
 
 		resetToLegends() {
 			this.$refs.infoBox.classList.remove('error');
-			let clem = document.getElementById('clem');
-			if(clem) {
-				clem.removeEventListener('click', this.clemClick);
+			const trigger = document.getElementById('unlock-trigger');
+			if(trigger) {
+				trigger.removeEventListener('click', this.onUnlockTap);
 			}
 			this.current = this.legends;
 			this.status = '';
@@ -416,11 +404,12 @@ export default {
 		.main-content {
 			margin-bottom: 0;
 		}
-		#clem {
+		#unlock-trigger {
 			cursor: pointer;
 			user-select: none;
 			-moz-user-select: none;
 			-webkit-user-select: none;
+			text-decoration: underline;
 		}
 		.swarm-unlocked {
 			width: fit-content;

@@ -8,7 +8,7 @@
 import PathfindingVisualizer from './components/PathfindingVisualizer.vue'
 
 export default {
-  name: 'App',
+  name: 'MppiGaApp',
   components: {
     PathfindingVisualizer
   }

@@ -1,5 +1,6 @@
-module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/Pathfinding-Visualizer-ThreeJS/'
-    : '/'
-}
+const { defineConfig } = require('@vue/cli-service')
+
+module.exports = defineConfig({
+  publicPath: process.env.NODE_ENV === 'production' ? '/MPPI-GA/' : '/',
+  transpileDependencies: true
+})
