@@ -680,7 +680,6 @@ export default {
 		},
 
 		nodeWatcher(newVal, oldVal) {
-			// console.log('WATCHER', newVal);
 			if (this.visualizerState == "running") return;
 			this.updateNode(newVal, this.streaming);
 		},
@@ -819,7 +818,6 @@ export default {
 		},
 
 		moveHandler(event) {
-			// console.log("Moved");
 		},
 
 		clickHandler(event) {

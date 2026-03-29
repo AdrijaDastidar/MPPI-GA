@@ -5,7 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test": "node --test"
+    "lint:ci": "node test/lint.ci.js",
+    "test:unit": "node --test test/smoke.test.js",
+    "test:integration": "node --test test/integration.test.js",
+    "test": "npm run test:unit"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^23.1.3",
