@@ -67,6 +67,31 @@ jobs:
           echo "## Test Results" >> "$GITHUB_STEP_SUMMARY"
           echo "- Unit tests executed" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Job duration
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - $START_TIME))
+
+          echo "## Duration" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Job took ${DURATION}s" >> "$GITHUB_STEP_SUMMARY"
+
+  sonar_scan:
+    needs: test_lint_unit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: MPPI-GA
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v7.1.0
         env:
@@ -86,17 +111,8 @@ jobs:
           echo "- Org: Adrija" >> "$GITHUB_STEP_SUMMARY"
           echo "- Status: Completed" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Job duration
-        if: always()
-        run: |
-          END_TIME=$(date +%s)
-          DURATION=$((END_TIME - $START_TIME))
-
-          echo "## Duration" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Job took ${DURATION}s" >> "$GITHUB_STEP_SUMMARY"
-
   build:
-    needs: test_lint_unit
+    needs: [test_lint_unit, sonar_scan]
     runs-on: ubuntu-latest
     defaults:
       run:
