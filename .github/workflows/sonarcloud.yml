@@ -3,47 +3,24 @@ name: SonarCloud
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pull-requests: write
-
-concurrency:
-  group: sonarcloud-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   sonarqube:
-    name: SonarQube Cloud
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: CI telemetry (job summary)
-        run: |
-          cat >> "$GITHUB_STEP_SUMMARY" << 'EOF'
-          ## CI telemetry
-          | Field | Value |
-          | --- | --- |
-          EOF
-          echo "| Event | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Ref | \`${{ github.ref }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| SHA | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Workflow | ${{ github.workflow }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Run ID | ${{ github.run_id }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Attempt | ${{ github.run_attempt }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Actor | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Repository | ${{ github.repository }} |" >> "$GITHUB_STEP_SUMMARY"
-
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v7.1.0
         env:
-          SONAR_TOKEN: 8c513d4da8819410b0293fd83eb95c7dbf219224
+            SONAR_TOKEN: 8c513d4da8819410b0293fd83eb95c7dbf219224
         with:
-          projectBaseDir: MPPI-GA
+          projectBaseDir: .
+          args: >
+            -Dsonar.projectKey=AdrijaDastidar_MPPI-GA
+            -Dsonar.organization=adrijadastidar
+            -Dsonar.host.url=https://sonarcloud.io
