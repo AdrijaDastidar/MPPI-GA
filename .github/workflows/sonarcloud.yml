@@ -44,6 +44,6 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v7.1.0
         env:
-          SONAR_TOKEN: adrijadastidar
+          SONAR_TOKEN: 8c513d4da8819410b0293fd83eb95c7dbf219224
         with:
           projectBaseDir: MPPI-GA
