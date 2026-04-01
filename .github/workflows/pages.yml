@@ -75,7 +75,7 @@ jobs:
           projectBaseDir: MPPI-GA
           args: >
             -Dsonar.projectKey=AdrijaDastidar_MPPI-GA
-            -Dsonar.organization=Adrija
+            -Dsonar.organization=adrijadastidar
             -Dsonar.host.url=https://sonarcloud.io
 
       - name: Sonar telemetry
